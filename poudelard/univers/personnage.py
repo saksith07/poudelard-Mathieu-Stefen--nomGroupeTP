@@ -1,7 +1,3 @@
-# ================================
-# Création du personnage
-# ================================
-
 
 def initialiser_personnage(nom, prenom, attributs):
     liste_inventaire = []
@@ -18,48 +14,40 @@ def initialiser_personnage(nom, prenom, attributs):
 
     return joueur
 
-# ================================
-# Affichage du personnage
-# ================================
 
 def afficher_personnage(joueur):
     print("Profil du personnage :")
 
-    for cle in joueur:
-        # Cas des attributs (dictionnaire)
+    for cle, valeur in joueur.items():
+
+
         if cle == "Attributs":
             print("Attributs :")
-            for attribut in joueur["Attributs"]:
-                print("- " + attribut + " : " + str(joueur["Attributs"][attribut]))
+            for attribut, score in valeur.items():
+                print("- {} : {}".format(attribut, score))
 
-        # Cas de l'inventaire (liste)
-        elif cle == "Inventaire":
-            if joueur["Inventaire"] == []:
-                print("Inventaire :")
+
+        elif cle == "Inventaire" or cle == "Sortilèges":
+
+
+            if valeur == []:
+                contenu = ""
             else:
-                print("Inventaire : " + ", ".join(joueur["Inventaire"]))
+                liste_propre = []
+                for objet in valeur:
+                    liste_propre.append(str(objet))
+                contenu = ", ".join(liste_propre)
 
-        # Cas des sortilèges (liste)
-        elif cle == "Sortilèges":
-            if joueur["Sortilèges"] == []:
-                print("Sortilèges :")
-            else:
-                print("Sortilèges : " + ", ".join(joueur["Sortilèges"]))
 
-        # Cas simples (Nom, Prenom, Argent, etc.)
+            print("{} : {}".format(cle, contenu))
+
+        # 3. Cas simples
         else:
-            print(cle + " : " + str(joueur[cle]))
-
-# ================================
-# Gestion de l'argent
-# ================================
+            print("{} : {}".format(cle, valeur))
 
 def modifier_argent(joueur, montant):
     joueur["Argent"] = joueur["Argent"] + montant
 
-# ================================
-# Ajout d'un objet
-# ================================
 
 def ajouter_objet(joueur, cle, objet):
     joueur[cle].append(objet)
