@@ -1,44 +1,34 @@
-# ================================
-# Gain de points pour sa maison
-# ================================
+from utils import demander_choix
+
 
 def actualiser_points_maison(maisons, nom_maison, points):
     if nom_maison in maisons:
         maisons[nom_maison] = maisons[nom_maison] + points
-        print(f"{nom_maison} gagne {points} points. Total : {maisons[nom_maison]} points.")
+        print("{} gagne {} points. Total : {} points.".format(nom_maison, points, maisons[nom_maison]))
     else:
         print("Maison introuvable.")
 
 
-# ================================
-# Affichage de la maison gagnante
-# ================================
-
-
 def afficher_maison_gagnante(maisons):
-    # 1. Initialiser score_max avec la première maison
-    for maison in maisons:
-        score_max = maisons[maison]
-        break
+    score_max = -1000
 
-    # 2. Trouver le score maximum
-    for maison in maisons:
-        if maisons[maison] > score_max:
-            score_max = maisons[maison]
+    for points in maisons.values():
+        if points > score_max:
+            score_max = points
 
-    # 3. Trouver les maisons gagnantes
+
     gagnantes = []
-    for maison in maisons:
-        if maisons[maison] == score_max:
-            gagnantes.append(maison)
+    for nom, points in maisons.items():
+        if points == score_max:
+            gagnantes.append(nom)
 
-    # 4. Affichage
-    if gagnantes[1:] == []:
-        print("La maison gagnante est", gagnantes[0], "avec", score_max, "points.")
+    if len(gagnantes) == 1:
+        print("La maison gagnante est {} avec {} points.".format(gagnantes[0], score_max))
+
     else:
         print("Maisons à égalité :")
-        for maison in gagnantes:
-            print("-", maison, "(", score_max, "points )")
+        for nom in gagnantes:
+            print("- {} ( {} points )".format(nom, score_max))
 
 
 # ================================
@@ -88,5 +78,71 @@ def repartition_maison(joueur, questions):
     print("Résumé des scores :")
     for maison in scores:
         print(maison + " :", scores[maison], "points")
+
+    return maison_gagnante
+
+
+
+    for maison, points in scores.items():
+        print("{} : {} points".format(maison, points))
+
+        # Recherche du max
+        if points > score_max:
+            score_max = points
+            maison_gagnante = maison
+
+    # 5. On retourne le nom de la maison gagnante
+    return maison_gagnante
+
+
+
+def repartition_maison(joueur, questions):
+    scores = {
+        "Gryffondor": 0,
+        "Serpentard": 0,
+        "Poufsouffle": 0,
+        "Serdaigle": 0
+    }
+
+
+    attributs = joueur["Attributs"]
+    scores["Gryffondor"] += attributs["courage"] * 2
+    scores["Serpentard"] += attributs["ambition"] * 2
+    scores["Poufsouffle"] += attributs["loyauté"] * 2
+    scores["Serdaigle"] += attributs["intelligence"] * 2
+
+
+    for question_texte, liste_choix, liste_maisons in questions:
+
+
+        reponse_choisie = demander_choix(question_texte, liste_choix)
+
+
+        index_trouve = 0
+
+
+        for i in range(len(liste_choix)):
+            if liste_choix[i] == reponse_choisie:
+                index_trouve = i
+
+
+
+        maison_concernee = liste_maisons[index_trouve]
+        scores[maison_concernee] += 3
+
+
+    print("Résumé des scores :")
+    maison_gagnante = ""
+
+    score_max = -1
+
+
+    for maison, points in scores.items():
+        print("{} : {} points".format(maison, points))
+
+
+        if points > score_max:
+            score_max = points
+            maison_gagnante = maison
 
     return maison_gagnante
