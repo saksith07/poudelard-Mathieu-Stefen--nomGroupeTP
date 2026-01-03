@@ -1,9 +1,8 @@
 from utils.input_utils import demander_choix
-from chapitres import chapitre_1, chapitre_2, chapitre_3
+from chapitres import chapitre_1, chapitre_2, chapitre_3, chapitre_4
 
 
 def afficher_menu_principal():
-
     print("\n" + "=" * 40)
     print("⚡ BIENVENUE DANS L'AVENTURE POUDLARD ⚡")
     print("=" * 40)
@@ -11,15 +10,8 @@ def afficher_menu_principal():
 
 def lancer_choix_menu():
 
-    maisons = {
-        "Gryffondor": 0,
-        "Serpentard": 0,
-        "Poufsouffle": 0,
-        "Serdaigle": 0
-    }
-
     liste_options = [
-        "Lancer le Chapitre 1 – L’arrivée dans le monde magique",
+        "Lancer l'aventure complète (Chapitres 1 à 4)",
         "Quitter le jeu"
     ]
 
@@ -31,6 +23,14 @@ def lancer_choix_menu():
         choix = demander_choix("Que veux-tu faire ?", liste_options)
 
         if choix == liste_options[0]:
+
+            maisons = {
+                "Gryffondor": 0,
+                "Serpentard": 0,
+                "Poufsouffle": 0,
+                "Serdaigle": 0
+            }
+
             print("\n--- 🚂 L'AVENTURE COMMENCE ! ---\n")
 
             joueur = chapitre_1.lancer_chapitre_1()
@@ -41,8 +41,9 @@ def lancer_choix_menu():
             input("\nAppuyez sur Entrée pour lancer le Chapitre 3...")
             joueur = chapitre_3.lancer_chapitre_3(joueur, maisons)
 
+            input("\nAppuyez sur Entrée pour lancer le Chapitre 4 (Quidditch)...")
+            chapitre_4.lancer_chapitre4_quidditch(joueur, maisons)
 
-            print("\n Fin de la partie disponible pour l'instant. Bientôt le chapitre 4")
 
         elif choix == liste_options[1]:
             print("Au revoir, jeune sorcier ! À bientôt.")
